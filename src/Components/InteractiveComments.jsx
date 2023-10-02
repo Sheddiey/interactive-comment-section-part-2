@@ -9,6 +9,7 @@ export default function InteractiveComments() {
     <div>
       <Score />
       <Comment />
+      <Reply />
     </div>
   );
 }
@@ -18,10 +19,10 @@ function Comment() {
   return (
     <div>
       {data.map((commentData) => (
-        <div key={commentData.comments}>
+        <div key={commentData.currentUser.username}>
           {commentData.comments.map((comment) => (
             <div key={comment.id}>
-              <Score />
+              <Score score={comment.score} />
               <div>
                 <UserName
                   username={comment.user.username}
@@ -63,8 +64,34 @@ function UserName({ username, createdAt, userImage }) {
   );
 }
 
-function YouReply() {}
+function YouUsernameSection() {}
 
-function Reply() {}
+function Reply() {
+  return (
+    <div>
+      {data.map((commentData) => (
+        <div key={commentData.currentUser.username}>
+          {commentData.comments.map((comment) => (
+            <div key={comment.id}>
+              {comment.replies.map((reply) => (
+                <div key={reply.id}>
+                  <Score score={reply.score} />
+                  <div>
+                    <UserName 
+                        username={reply.user.username}
+                        createdAt={reply.createdAt}
+                        userImage={reply.user.image.png}
+                    />
+                    <p><span>@{reply.replyingTo}</span> {reply.content}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function AddComment() {}
