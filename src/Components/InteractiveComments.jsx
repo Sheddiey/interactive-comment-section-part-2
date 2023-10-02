@@ -8,21 +8,20 @@ import juliusomo from './images/avatars/image-juliusomo.webp'
 import { data } from "./data.js";
 
 export default function InteractiveComments() {
+    const [isData, setIsData] = useState(data);
   return (
     <div>
-      <Score />
-      <Comment />
-      <Reply />
+      <Comment isData={isData} />
+      <Reply isData={isData}/>
       <AddComment />
     </div>
   );
 }
 
-function Comment() {
-  const [isData, setIsData] = useState(data);
+function Comment({isData}) {
   return (
     <div>
-      {data.map((commentData) => (
+      {isData.map((commentData) => (
         <div key={commentData.currentUser.username}>
           {commentData.comments.map((comment) => (
             <div key={comment.id}>
@@ -43,10 +42,10 @@ function Comment() {
   );
 }
 
-function Reply() {
+function Reply({isData}) {
   return (
     <div>
-      {data.map((commentData) => (
+      {isData.map((commentData) => (
         <div key={commentData.currentUser.username}>
           {commentData.comments.map((comment) => (
             <div key={comment.id}>
