@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import plus from "./images/icon-plus.svg";
 import minus from "./images/icon-minus.svg";
 import reply from "./images/icon-reply.svg";
+import deleteIcon from "./images/icon-delete.svg";
+import editIcon from "./images/icon-edit.svg";
+import juliusomo from './images/avatars/image-juliusomo.webp'
 import { data } from "./data.js";
 
 export default function InteractiveComments() {
@@ -10,6 +13,7 @@ export default function InteractiveComments() {
       <Score />
       <Comment />
       <Reply />
+      <AddComment />
     </div>
   );
 }
@@ -38,6 +42,47 @@ function Comment() {
     </div>
   );
 }
+
+function Reply() {
+  return (
+    <div>
+      {data.map((commentData) => (
+        <div key={commentData.currentUser.username}>
+          {commentData.comments.map((comment) => (
+            <div key={comment.id}>
+              {comment.replies.map((reply) => (
+                <div key={reply.id}>
+                  <Score score={reply.score} />
+                  <div>
+                    <>
+                      {reply.user.username !== "juliusomo" ? (
+                        <UserName
+                          username={reply.user.username}
+                          createdAt={reply.createdAt}
+                          userImage={reply.user.image.png}
+                        />
+                      ) : (
+                        <YouUsername
+                          username={reply.user.username}
+                          createdAt={reply.createdAt}
+                          userImage={reply.user.image.png}
+                        />
+                      )}
+                    </>
+                    <p>
+                      <span>@{reply.replyingTo}</span> {reply.content}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function Score({ score }) {
   return (
     <div className="score">
@@ -64,34 +109,35 @@ function UserName({ username, createdAt, userImage }) {
   );
 }
 
-function YouUsernameSection() {}
-
-function Reply() {
+function YouUsername({ username, createdAt, userImage }) {
   return (
     <div>
-      {data.map((commentData) => (
-        <div key={commentData.currentUser.username}>
-          {commentData.comments.map((comment) => (
-            <div key={comment.id}>
-              {comment.replies.map((reply) => (
-                <div key={reply.id}>
-                  <Score score={reply.score} />
-                  <div>
-                    <UserName 
-                        username={reply.user.username}
-                        createdAt={reply.createdAt}
-                        userImage={reply.user.image.png}
-                    />
-                    <p><span>@{reply.replyingTo}</span> {reply.content}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ))}
+      <div>
+        <img src={userImage} alt={username} />
+        <h2>{username}</h2>
+        <h6>you</h6>
+        <p>{createdAt}</p>
+      </div>
+      <div>
+        <div>
+          <img src={deleteIcon} alt="delete" />
+          <p>Delete</p>
         </div>
-      ))}
+        <div>
+          <img src={editIcon} alt="edit" />
+          <p>Edit</p>
+        </div>
+      </div>
     </div>
   );
 }
 
-function AddComment() {}
+function AddComment() {
+    return (
+        <div>
+            <img src={juliusomo} alt="juliusomo" />
+            <textarea placeholder="Add a comment..." />
+            <button>Send</button>
+        </div>
+    );
+}
