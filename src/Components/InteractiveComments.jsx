@@ -4,37 +4,33 @@ import minus from "./images/icon-minus.svg";
 import reply from "./images/icon-reply.svg";
 import deleteIcon from "./images/icon-delete.svg";
 import editIcon from "./images/icon-edit.svg";
-import juliusomo from './images/avatars/image-juliusomo.webp'
+import juliusomo from "./images/avatars/image-juliusomo.webp";
 import { data } from "./data.js";
 
 export default function InteractiveComments() {
-    const [isData, setIsData] = useState(data);
+  const [isData, setIsData] = useState(data);
   return (
     <div>
       <Comment isData={isData} />
-      <Reply isData={isData}/>
+      <Reply isData={isData} />
       <AddComment />
     </div>
   );
 }
 
-function Comment({isData}) {
+function Comment({ isData }) {
   return (
     <div>
       {isData.map((commentData) => (
         <div key={commentData.currentUser.username}>
           {commentData.comments.map((comment) => (
-            <div key={comment.id}>
-              <Score score={comment.score} />
-              <div>
-                <UserName
-                  username={comment.user.username}
-                  createdAt={comment.createdAt}
-                  userImage={comment.user.image.png}
-                />
-                <p>{comment.content}</p>
-              </div>
-            </div>
+            <CommentComponent 
+                score={comment.score}
+                username={comment.user.username}
+                createdAt={comment.createdAt}
+                userImage={comment.user.image.png}
+                content={comment.content}
+            />
           ))}
         </div>
       ))}
@@ -42,7 +38,23 @@ function Comment({isData}) {
   );
 }
 
-function Reply({isData}) {
+function CommentComponent({ score, content, username, createdAt, userImage }) {
+  return (
+    <div>
+      <Score score={score} />
+      <div>
+        <UserName
+          username={username}
+          createdAt={createdAt}
+          userImage={userImage}
+        />{" "}
+        <p>{content}</p>
+      </div>
+    </div>
+  );
+}
+
+function Reply({ isData }) {
   return (
     <div>
       {isData.map((commentData) => (
@@ -81,6 +93,16 @@ function Reply({isData}) {
     </div>
   );
 }
+
+function ReplyComponent() {
+    return (
+        <div>
+        
+        </div>
+    );
+}
+
+
 
 function Score({ score }) {
   return (
@@ -132,11 +154,11 @@ function YouUsername({ username, createdAt, userImage }) {
 }
 
 function AddComment() {
-    return (
-        <div>
-            <img src={juliusomo} alt="juliusomo" />
-            <textarea placeholder="Add a comment..." />
-            <button>Send</button>
-        </div>
-    );
+  return (
+    <div>
+      <img src={juliusomo} alt="juliusomo" />
+      <textarea placeholder="Add a comment..." />
+      <button>Send</button>
+    </div>
+  );
 }
