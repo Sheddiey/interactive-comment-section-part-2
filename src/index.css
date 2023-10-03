@@ -112,6 +112,25 @@ body {
   width: 50ch;
 }
 
+/* reply component */
+.reply {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 642px;
+  height: 167px;
+  background-color: var(--white);
+}
+.reply-left h4 {
+  min-height: 72px;
+  min-width: 530px;
+  width: 40ch;
+}
+.reply-left span {
+  color: var(--moderate-blue);
+  font-weight: var(--fw-bold);
+}
+
 
 /* Score component */
 .score {

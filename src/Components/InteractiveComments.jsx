@@ -22,16 +22,16 @@ function Comment({ isData }) {
   return (
     <div>
       {isData.map((commentData) => (
-        <div  key={commentData.currentUser.username}>
+        <div key={commentData.currentUser.username}>
           {commentData.comments.map((comment) => (
             <div className="margin-ax" key={comment.id}>
-            <CommentComponent
+              <CommentComponent
                 score={comment.score}
                 username={comment.user.username}
                 createdAt={comment.createdAt}
                 userImage={comment.user.image.png}
                 content={comment.content}
-            />
+              />
             </div>
           ))}
         </div>
@@ -60,52 +60,61 @@ function Reply({ isData }) {
   return (
     <div>
       {isData.map((commentData) => (
-        <div key={commentData.currentUser.username} >
-        {commentData.comments.map((comment) => (
-          <div key={comment.id}>
-            {comment.replies.map((reply) => (
-              <ReplyComponent 
-                score={reply.score}
-                username={reply.user.username}
-                createdAt={reply.createdAt}
-                userImage={reply.user.image.png}
-                replyingTo={reply.replyingTo}
-                content={reply.content}
-              />
-            ))}
-          </div>
-        ))}
+        <div key={commentData.currentUser.username}>
+          {commentData.comments.map((comment) => (
+            <div key={comment.id}>
+              {comment.replies.map((reply) => (
+                <div className="margin-ax">
+                  <ReplyComponent
+                    score={reply.score}
+                    username={reply.user.username}
+                    createdAt={reply.createdAt}
+                    userImage={reply.user.image.png}
+                    replyingTo={reply.replyingTo}
+                    content={reply.content}
+                  />
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
       ))}
     </div>
   );
 }
 
-function ReplyComponent({ score, username, createdAt, userImage, replyingTo, content }) {
-    return (
-        <div>
-          <Score score={score}/>
-          <div>
-          {username !== "juliusomo" ? (
-            <UserName
-              username={username}
-              createdAt={createdAt}
-              userImage={userImage}
-            />
-          ) : (
-            <YouUsername
-              username={username}
-              createdAt={createdAt}
-              userImage={userImage}
-            />
-          )}
-          <p>@{replyingTo} {content}</p>
-          </div>
-        </div>
-    );
+function ReplyComponent({
+  score,
+  username,
+  createdAt,
+  userImage,
+  replyingTo,
+  content,
+}) {
+  return (
+    <div className="reply">
+      <Score score={score} />
+      <div className="reply-left">
+        {username !== "juliusomo" ? (
+          <UserName
+            username={username}
+            createdAt={createdAt}
+            userImage={userImage}
+          />
+        ) : (
+          <YouUsername
+            username={username}
+            createdAt={createdAt}
+            userImage={userImage}
+          />
+        )}
+        <h4>
+          <span>@{replyingTo}</span> {content}
+        </h4>
+      </div>
+    </div>
+  );
 }
-
-
 
 function Score({ score }) {
   return (
