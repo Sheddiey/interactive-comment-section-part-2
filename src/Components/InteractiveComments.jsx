@@ -94,10 +94,26 @@ function Reply({ isData }) {
   );
 }
 
-function ReplyComponent() {
+function ReplyComponent({ score, username, createdAt, userImage, replyingTo, content }) {
     return (
         <div>
-        
+          <Score score={score}/>
+          <div>
+          {username !== "juliusomo" ? (
+            <UserName
+              username={username}
+              createdAt={createdAt}
+              userImage={userImage}
+            />
+          ) : (
+            <YouUsername
+              username={username}
+              createdAt={createdAt}
+              userImage={userImage}
+            />
+          )}
+          <p>@{replyingTo} {content}</p>
+          </div>
         </div>
     );
 }
