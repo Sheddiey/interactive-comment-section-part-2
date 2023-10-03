@@ -90,6 +90,10 @@ svg {
 /* general styling */
 body {
   font-family: var(--ff-primary);
+  background-color: hsl(0, 0%, 95%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Score component */
@@ -204,4 +208,40 @@ body {
 .edit-section img{
   width: 14px;
   height: 13.95px;
+}
+
+/* AddComment component */
+.add-comment {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 730px;
+  height: 144px;
+  background-color: var(--white);
+}
+.add-comment img {
+  height: 32px;
+  width: 32px;
+}
+.add-comment textarea {
+  width: 506px;
+  height: 96px;
+  resize: none;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--light-gray);
+}
+.add-comment textarea:focus {
+  border: 0;
+  outline: 2px solid var(--moderate-blue);
+}
+.add-comment button {
+  width: 104px;
+  height: 48px;
+  text-transform: uppercase;
+  color: var(--white);
+  background-color: var(--moderate-blue);
+  border-radius: 5px;
+  border: 0;
+  cursor: pointer;
 }

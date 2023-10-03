@@ -156,7 +156,7 @@ function YouUsername({ username, createdAt, userImage }) {
 
 function AddComment() {
   return (
-    <div>
+    <div className="add-comment">
       <img src={juliusomo} alt="juliusomo" />
       <textarea placeholder="Add a comment..." />
       <button>Send</button>
