@@ -117,13 +117,13 @@ function Score({ score }) {
 
 function UserName({ username, createdAt, userImage }) {
   return (
-    <div>
-      <div>
+    <div className="username">
+      <div className="username-left">
         <img src={userImage} alt={username} />
         <h2>{username}</h2>
         <p>{createdAt}</p>
       </div>
-      <div>
+      <div className="username-right">
         <img src={reply} alt="reply" />
         <p>Reply</p>
       </div>

@@ -104,3 +104,40 @@ svg {
   color: var(--moderate-blue);
   font-weight: var(--fw-bold);
 }
+
+/* UserName component */
+.username {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.username-left {
+  display: flex;
+  gap: 16px;
+}
+.username-left img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+.username-left h2 {
+  color: var(--dark-blue);
+  font-weight: var(--fw-bold);
+}
+.username-left p {
+  color: var(--grayish-blue);
+  font-weight: var(--fw-medium);
+}
+.username-right {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.username-right img {
+  width: 14px;
+  height: 12.25px;
+}
+.username-right p {
+  color: var(--moderate-blue);
+  font-weight: var(--fw-bold);
+}
