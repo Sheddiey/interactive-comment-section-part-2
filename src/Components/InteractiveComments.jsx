@@ -58,36 +58,21 @@ function Reply({ isData }) {
   return (
     <div>
       {isData.map((commentData) => (
-        <div key={commentData.currentUser.username}>
-          {commentData.comments.map((comment) => (
-            <div key={comment.id}>
-              {comment.replies.map((reply) => (
-                <div key={reply.id}>
-                  <Score score={reply.score} />
-                  <div>
-                    <>
-                      {reply.user.username !== "juliusomo" ? (
-                        <UserName
-                          username={reply.user.username}
-                          createdAt={reply.createdAt}
-                          userImage={reply.user.image.png}
-                        />
-                      ) : (
-                        <YouUsername
-                          username={reply.user.username}
-                          createdAt={reply.createdAt}
-                          userImage={reply.user.image.png}
-                        />
-                      )}
-                    </>
-                    <p>
-                      <span>@{reply.replyingTo}</span> {reply.content}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ))}
+        <div key={commentData.currentUser.username} >
+        {commentData.comments.map((comment) => (
+          <div key={comment.id}>
+            {comment.replies.map((reply) => (
+              <ReplyComponent 
+                score={reply.score}
+                username={reply.user.username}
+                createdAt={reply.createdAt}
+                userImage={reply.user.image.png}
+                replyingTo={reply.replyingTo}
+                content={reply.content}
+              />
+            ))}
+          </div>
+        ))}
         </div>
       ))}
     </div>
