@@ -22,15 +22,17 @@ function Comment({ isData }) {
   return (
     <div>
       {isData.map((commentData) => (
-        <div key={commentData.currentUser.username}>
+        <div  key={commentData.currentUser.username}>
           {commentData.comments.map((comment) => (
-            <CommentComponent 
+            <div className="margin-ax" key={comment.id}>
+            <CommentComponent
                 score={comment.score}
                 username={comment.user.username}
                 createdAt={comment.createdAt}
                 userImage={comment.user.image.png}
                 content={comment.content}
             />
+            </div>
           ))}
         </div>
       ))}
@@ -40,9 +42,9 @@ function Comment({ isData }) {
 
 function CommentComponent({ score, content, username, createdAt, userImage }) {
   return (
-    <div>
+    <div className="comment">
       <Score score={score} />
-      <div>
+      <div className="comment-left">
         <UserName
           username={username}
           createdAt={createdAt}
