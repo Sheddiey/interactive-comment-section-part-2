@@ -133,19 +133,19 @@ function UserName({ username, createdAt, userImage }) {
 
 function YouUsername({ username, createdAt, userImage }) {
   return (
-    <div>
-      <div>
+    <div className="you-username">
+      <div className="you-username-left">
         <img src={userImage} alt={username} />
         <h2>{username}</h2>
         <h6>you</h6>
         <p>{createdAt}</p>
       </div>
-      <div>
-        <div>
+      <div className="you-username-right">
+        <div className="delete-section">
           <img src={deleteIcon} alt="delete" />
           <p>Delete</p>
         </div>
-        <div>
+        <div className="edit-section">
           <img src={editIcon} alt="edit" />
           <p>Edit</p>
         </div>
