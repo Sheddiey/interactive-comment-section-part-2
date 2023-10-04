@@ -5,6 +5,7 @@ import reply from "./images/icon-reply.svg";
 import deleteIcon from "./images/icon-delete.svg";
 import editIcon from "./images/icon-edit.svg";
 import juliusomo from "./images/avatars/image-juliusomo.webp";
+import { ReactComponent as IconPlus} from './images/icons.svg#icon-plus'
 import { data } from "./data.js";
 
 export default function InteractiveComments() {
@@ -174,3 +175,5 @@ function AddComment() {
     </div>
   );
 }
+
+
