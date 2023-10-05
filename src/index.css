@@ -96,6 +96,13 @@ body {
   align-items: center;
   margin: 30px;
 }
+/* interactive comments component */
+.interactive-comments{
+  display: grid;
+  justify-items: right;
+}
+
+
 
 /* commemt component */
 .comment {
@@ -105,6 +112,7 @@ body {
   width: 730px;
   height: 167px;
   background-color: var(--white);
+  border-radius: 10px;
 }
 .comment-left {
   min-height: 72px;
@@ -120,6 +128,7 @@ body {
   width: 642px;
   height: 167px;
   background-color: var(--white);
+  border-radius: 10px;
 }
 .reply-left h4 {
   min-height: 72px;
@@ -254,6 +263,7 @@ body {
   width: 730px;
   height: 144px;
   background-color: var(--white);
+  border-radius: 10px;
 }
 .add-comment img {
   height: 32px;
@@ -265,7 +275,7 @@ body {
   resize: none;
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid var(--light-gray);
+  border: 2px solid var(--light-gray);
 }
 .add-comment textarea:focus {
   border: 0;
