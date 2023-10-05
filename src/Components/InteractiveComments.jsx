@@ -9,6 +9,37 @@ import { data } from "./data.js";
 
 export default function InteractiveComments() {
   const [isData, setIsData] = useState(data);
+  const [replyText, setReplyText] = useState("");
+
+  function handleReply(parentId, replyText) {
+    const newReply = {
+      id: new Date().getTime(),
+      user: {
+        username: "juliusomo",
+        image: {
+          png: juliusomo,
+        },
+      },
+      createdAt: new Date().toLocaleString(),
+      replyingTo: parentId,
+      content: replyText,
+      score: 0,
+    };
+
+    const updateComments = isData.map((commentData) => ({
+      ...commentData,
+      comments: commentData.comments.map((comment) => {
+        if (comment.id === parentId) {
+          return {
+            ...comment,
+            replies: [...comment.replies, newReply],
+          };
+        }
+        return isData;
+      }),
+    }));
+  }
+
   return (
     <div className="interactive-comments">
       <Comment isData={isData} />
@@ -134,10 +165,10 @@ function UserName({ username, createdAt, userImage }) {
         <h2>{username}</h2>
         <p>{createdAt}</p>
       </div>
-      <div className="username-right">
+      <button className="username-right">
         <img src={reply} alt="reply" />
         <p>Reply</p>
-      </div>
+      </button>
     </div>
   );
 }
@@ -152,14 +183,14 @@ function YouUsername({ username, createdAt, userImage }) {
         <p>{createdAt}</p>
       </div>
       <div className="you-username-right">
-        <div className="delete-section">
+        <button className="delete-section">
           <img src={deleteIcon} alt="delete" />
           <p>Delete</p>
-        </div>
-        <div className="edit-section">
+        </button>
+        <button className="edit-section">
           <img src={editIcon} alt="edit" />
           <p>Edit</p>
-        </div>
+        </button>
       </div>
     </div>
   );
@@ -174,5 +205,3 @@ function AddComment() {
     </div>
   );
 }
-
-

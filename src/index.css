@@ -183,6 +183,9 @@ body {
   display: flex;
   gap: 5px;
   align-items: center;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
 }
 .username-right img {
   width: 14px;
@@ -248,6 +251,9 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
 }
 .delete-section img,
 .edit-section img{
