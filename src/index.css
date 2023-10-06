@@ -263,31 +263,48 @@ body {
 
 /* AddComment component */
 .add-comment {
+  width: 730px;
+  height: 144px;
+}
+.add-reply {
+  width: 642px;
+  height: 167px;
+}
+.add-comment,
+.add-reply {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 730px;
-  height: 144px;
   background-color: var(--white);
   border-radius: 10px;
 }
-.add-comment img {
+.add-comment img,
+.add-reply img {
   height: 32px;
   width: 32px;
 }
 .add-comment textarea {
   width: 506px;
   height: 96px;
+}
+.add-reply textarea {
+  width: 418px;
+  height: 96px;
+}
+.add-comment textarea,
+.add-reply textarea {
   resize: none;
   padding: 10px;
   border-radius: 5px;
   border: 2px solid var(--light-gray);
 }
-.add-comment textarea:focus {
+.add-comment textarea:focus,
+.add-reply textarea:focus {
   border: 0;
   outline: 2px solid var(--moderate-blue);
 }
-.add-comment button {
+.add-comment button,
+.add-reply button {
   width: 104px;
   height: 48px;
   text-transform: uppercase;
@@ -297,6 +314,10 @@ body {
   border: 0;
   cursor: pointer;
 }
+
+/* Addreply comment component */
+
+
 
 /* utility classes */
 .margin-ax {

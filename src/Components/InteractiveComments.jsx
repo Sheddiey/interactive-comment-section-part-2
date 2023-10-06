@@ -164,7 +164,7 @@ function Reply({ isData, onReply, isClickedMap, replyingToCommentId  }) {
                   />
                   {replyingToCommentId === reply.id && (
                     <div className="reply-input-field">
-                      <AddComment />
+                      <AddReplyComment />
                     </div>
                   )}
                 </div>
@@ -279,9 +279,9 @@ function AddComment() {
 
 function AddReplyComment() {
   return (
-    <div>
+    <div className="add-reply">
       <img src={juliusomo} alt="juliusomo" />
-      <textarea placeholder="Add reply..." />
+      <textarea placeholder="Add a reply..." />
       <button>Send</button>
     </div>
   );
