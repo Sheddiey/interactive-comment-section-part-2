@@ -97,7 +97,7 @@ function Comment({ isData, onReply, isClickedMap, replyingToCommentId }) {
                 createdAt={comment.createdAt}
                 userImage={comment.user.image.png}
                 content={comment.content}
-                commentId={comment.id}                
+                commentId={comment.id}
                 onReply={onReply}
                 isClickedMap={isClickedMap}
                 replyingToCommentId={replyingToCommentId}
@@ -141,7 +141,7 @@ function CommentComponent({
   );
 }
 
-function Reply({ isData, onReply, isClickedMap, replyingToCommentId  }) {
+function Reply({ isData, onReply, isClickedMap, replyingToCommentId }) {
   return (
     <div>
       {isData.map((commentData) => (
