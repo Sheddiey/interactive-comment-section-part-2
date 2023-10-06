@@ -10,8 +10,23 @@ import { data } from "./data.js";
 export default function InteractiveComments() {
   const [isData, setIsData] = useState(data);
   const [replyText, setReplyText] = useState("");
+  const [isClickedMap, setIsClickedMap] = useState({});
+  const [replyingToCommentId, setReplyingToCommentId] = useState(null);
 
-  function handleReply(parentId, replyText) {
+  function handleReplyClick(commentId) {
+    setIsClickedMap((prevState) => ({
+      ...prevState,
+      [commentId]: !prevState[commentId] || false,
+    }));
+
+    if (replyingToCommentId === commentId) {
+      setReplyingToCommentId(null);
+    } else {
+      setReplyingToCommentId(commentId);
+    }
+  }
+
+  function handleReply(parentId, replyText, commentId) {
     const newReply = {
       id: new Date().getTime(),
       user: {
@@ -38,18 +53,38 @@ export default function InteractiveComments() {
         return isData;
       }),
     }));
+
+    setIsData(updateComments);
+    setIsClickedMap((prevState) => ({
+      ...prevState,
+      [commentId]: false,
+    }));
   }
 
   return (
     <div className="interactive-comments">
-      <Comment isData={isData} />
-      <Reply isData={isData} />
-      <AddComment />
+      {isData.map((commentData) => (
+        <div key={commentData.currentUser.username}>
+          <Comment
+            isData={isData}
+            onReply={handleReplyClick}
+            isClickedMap={isClickedMap}
+            replyingToCommentId={replyingToCommentId}
+          />
+          <Reply
+            isData={isData}
+            onReply={handleReplyClick}
+            isClickedMap={isClickedMap}
+            replyingToCommentId={replyingToCommentId}
+          />
+          <AddComment onReply={handleReply} />
+        </div>
+      ))}
     </div>
   );
 }
 
-function Comment({ isData }) {
+function Comment({ isData, onReply, isClickedMap, replyingToCommentId }) {
   return (
     <div>
       {isData.map((commentData) => (
@@ -62,7 +97,16 @@ function Comment({ isData }) {
                 createdAt={comment.createdAt}
                 userImage={comment.user.image.png}
                 content={comment.content}
+                commentId={comment.id}                
+                onReply={onReply}
+                isClickedMap={isClickedMap}
+                replyingToCommentId={replyingToCommentId}
               />
+              {replyingToCommentId === comment.id && (
+                <div className="reply-input-field">
+                  <AddComment />
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -71,15 +115,25 @@ function Comment({ isData }) {
   );
 }
 
-function CommentComponent({ score, content, username, createdAt, userImage }) {
+function CommentComponent({
+  score,
+  onReply,
+  content,
+  username,
+  createdAt,
+  userImage,
+  commentId,
+}) {
   return (
     <div className="comment">
       <Score score={score} />
       <div className="comment-left">
         <UserName
+          onReply={onReply}
           username={username}
           createdAt={createdAt}
           userImage={userImage}
+          commentId={commentId}
         />{" "}
         <p>{content}</p>
       </div>
@@ -87,7 +141,7 @@ function CommentComponent({ score, content, username, createdAt, userImage }) {
   );
 }
 
-function Reply({ isData }) {
+function Reply({ isData, onReply, isClickedMap, replyingToCommentId  }) {
   return (
     <div>
       {isData.map((commentData) => (
@@ -103,7 +157,16 @@ function Reply({ isData }) {
                     userImage={reply.user.image.png}
                     replyingTo={reply.replyingTo}
                     content={reply.content}
+                    commentId={reply.id}
+                    onReply={onReply}
+                    isClickedMap={isClickedMap}
+                    replyingToCommentId={replyingToCommentId}
                   />
+                  {replyingToCommentId === reply.id && (
+                    <div className="reply-input-field">
+                      <AddComment />
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -116,11 +179,13 @@ function Reply({ isData }) {
 
 function ReplyComponent({
   score,
+  onReply,
   username,
   createdAt,
   userImage,
   replyingTo,
   content,
+  commentId,
 }) {
   return (
     <div className="reply">
@@ -131,6 +196,8 @@ function ReplyComponent({
             username={username}
             createdAt={createdAt}
             userImage={userImage}
+            onReply={onReply}
+            commentId={commentId}
           />
         ) : (
           <YouUsername
@@ -157,7 +224,11 @@ function Score({ score }) {
   );
 }
 
-function UserName({ username, createdAt, userImage }) {
+function UserName({ username, createdAt, userImage, onReply, commentId }) {
+  const handleReplyClick = () => {
+    onReply(commentId);
+  };
+
   return (
     <div className="username">
       <div className="username-left">
@@ -165,7 +236,7 @@ function UserName({ username, createdAt, userImage }) {
         <h2>{username}</h2>
         <p>{createdAt}</p>
       </div>
-      <button className="username-right">
+      <button onClick={handleReplyClick} className="username-right">
         <img src={reply} alt="reply" />
         <p>Reply</p>
       </button>
@@ -201,6 +272,16 @@ function AddComment() {
     <div className="add-comment">
       <img src={juliusomo} alt="juliusomo" />
       <textarea placeholder="Add a comment..." />
+      <button>Send</button>
+    </div>
+  );
+}
+
+function AddReplyComment() {
+  return (
+    <div>
+      <img src={juliusomo} alt="juliusomo" />
+      <textarea placeholder="Add reply..." />
       <button>Send</button>
     </div>
   );
