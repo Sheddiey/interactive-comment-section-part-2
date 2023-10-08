@@ -59,6 +59,7 @@ export default function InteractiveComments() {
       ...prevState,
       [commentId]: false,
     }));
+    setReplyText("");
   }
 
   return (
@@ -76,6 +77,9 @@ export default function InteractiveComments() {
             onReply={handleReplyClick}
             isClickedMap={isClickedMap}
             replyingToCommentId={replyingToCommentId}
+            replyText={replyText}
+            setReplyText={setReplyText}
+            onReplySend={handleReply}
           />
           <AddComment onReply={handleReply} />
         </div>
@@ -141,7 +145,15 @@ function CommentComponent({
   );
 }
 
-function Reply({ isData, onReply, isClickedMap, replyingToCommentId }) {
+function Reply({
+  isData,
+  onReply,
+  isClickedMap,
+  replyingToCommentId,
+  replyText,
+  setReplyText,
+  onReplySend,
+}) {
   return (
     <div>
       {isData.map((commentData) => (
@@ -164,7 +176,12 @@ function Reply({ isData, onReply, isClickedMap, replyingToCommentId }) {
                   />
                   {replyingToCommentId === reply.id && (
                     <div className="reply-input-field">
-                      <AddReplyComment />
+                      <AddReplyComment
+                        replyingTo={reply.user.username}
+                        replyText={replyText}
+                        setReplyText={setReplyText}
+                        onReplySend={onReplySend}
+                      />
                     </div>
                   )}
                 </div>
@@ -277,12 +294,20 @@ function AddComment() {
   );
 }
 
-function AddReplyComment() {
+function AddReplyComment({ replyText, setReplyText, onReplySend }) {
+  function handleTextChange(e) {
+    setReplyText(e.target.value);
+  }
+
   return (
     <div className="add-reply">
       <img src={juliusomo} alt="juliusomo" />
-      <textarea placeholder="Add a reply..." />
-      <button>Send</button>
+      <textarea
+        placeholder="Add a reply..."
+        value={replyText}
+        onChange={handleTextChange}
+      />
+      <button onClick={onReplySend}>Send</button>
     </div>
   );
 }

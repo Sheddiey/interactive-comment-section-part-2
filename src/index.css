@@ -314,7 +314,12 @@ body {
   border: 0;
   cursor: pointer;
 }
-
+.add-comment button:hover,
+.add-comment button:focus,
+.add-reply button:hover,
+.add-reply button:focus {
+  background-color: var(--light-grayish-blue);
+}
 /* Addreply comment component */
 
 
