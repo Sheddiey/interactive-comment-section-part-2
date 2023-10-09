@@ -30,7 +30,7 @@ export default function InteractiveComments() {
     const newReply = {
       id: new Date().getTime(),
       user: {
-        username: "juliusomo",
+        username: 'juliusomo',
         image: {
           png: juliusomo,
         },
@@ -41,25 +41,29 @@ export default function InteractiveComments() {
       score: 0,
     };
 
-    const updateComments = isData.map((commentData) => ({
-      ...commentData,
-      comments: commentData.comments.map((comment) => {
-        if (comment.id === parentId) {
-          return {
-            ...comment,
-            replies: [...comment.replies, newReply],
-          };
-        }
-        return isData;
-      }),
-    }));
+    const updateData = isData.map((commentData) => {
+      if (commentData.comments.some((comment) => comment.id === parentId)) {
+        return {
+          ...commentData,
+          comments: commentData.comments.map((comment) => {
+            if (comment.id === parentId) {
+              return {
+                ...comment,
+                replies: [...comment.replies, newReply],
+              };
+            }
+            return comment;
+          }),
+        };
+      }
+      return commentData;
+    });
 
-    setIsData(updateComments);
+    setIsData(updateData);
     setIsClickedMap((prevState) => ({
       ...prevState,
-      [commentId]: false,
+      [commentId]: false
     }));
-    setReplyText("");
   }
 
   return (
@@ -106,6 +110,11 @@ function Comment({ isData, onReply, isClickedMap, replyingToCommentId }) {
                 isClickedMap={isClickedMap}
                 replyingToCommentId={replyingToCommentId}
               />
+              <div>
+                {comment.replies.length > 0 ? (
+                  <ReplyComponent />
+                ) : null}
+              </div>
               {replyingToCommentId === comment.id && (
                 <div className="reply-input-field">
                   <AddComment />
@@ -174,13 +183,15 @@ function Reply({
                     isClickedMap={isClickedMap}
                     replyingToCommentId={replyingToCommentId}
                   />
+                  <div>
+                  </div>
                   {replyingToCommentId === reply.id && (
                     <div className="reply-input-field">
                       <AddReplyComment
                         replyingTo={reply.user.username}
                         replyText={replyText}
                         setReplyText={setReplyText}
-                        onReplySend={onReplySend}
+                        onReplySend={(text) => onReplySend(reply.id, text, reply.id)}
                       />
                     </div>
                   )}
@@ -298,6 +309,12 @@ function AddReplyComment({ replyText, setReplyText, onReplySend }) {
   function handleTextChange(e) {
     setReplyText(e.target.value);
   }
+  function handleSendclick() {
+    if (replyText) {
+      onReplySend(replyText);
+      setReplyText('');
+    }
+  }
 
   return (
     <div className="add-reply">
@@ -307,7 +324,7 @@ function AddReplyComment({ replyText, setReplyText, onReplySend }) {
         value={replyText}
         onChange={handleTextChange}
       />
-      <button onClick={onReplySend}>Send</button>
+      <button onClick={handleSendclick}>Send</button>
     </div>
   );
 }
