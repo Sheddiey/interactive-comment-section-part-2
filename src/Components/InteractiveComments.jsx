@@ -6,6 +6,8 @@ import deleteIcon from "./images/icon-delete.svg";
 import editIcon from "./images/icon-edit.svg";
 import juliusomo from "./images/avatars/image-juliusomo.webp";
 import { data } from "./data.js";
+import { Comment } from "./Comment";
+import { Reply } from "./Reply";
 
 export default function InteractiveComments() {
   const [isData, setIsData] = useState(data);
@@ -26,11 +28,12 @@ export default function InteractiveComments() {
     }
   }
 
-  function handleReply(parentId, replyText, commentId) {
+  function handleReply(parentId, replyText, commentId, serial) {
     const newReply = {
+      serial: serial,
       id: new Date().getTime(),
       user: {
-        username: 'juliusomo',
+        username: "juliusomo",
         image: {
           png: juliusomo,
         },
@@ -62,7 +65,7 @@ export default function InteractiveComments() {
     setIsData(updateData);
     setIsClickedMap((prevState) => ({
       ...prevState,
-      [commentId]: false
+      [commentId]: false,
     }));
   }
 
@@ -75,16 +78,11 @@ export default function InteractiveComments() {
             onReply={handleReplyClick}
             isClickedMap={isClickedMap}
             replyingToCommentId={replyingToCommentId}
-          />
-          <Reply
-            isData={isData}
-            onReply={handleReplyClick}
-            isClickedMap={isClickedMap}
-            replyingToCommentId={replyingToCommentId}
             replyText={replyText}
             setReplyText={setReplyText}
             onReplySend={handleReply}
           />
+          
           <AddComment onReply={handleReply} />
         </div>
       ))}
@@ -92,157 +90,9 @@ export default function InteractiveComments() {
   );
 }
 
-function Comment({ isData, onReply, isClickedMap, replyingToCommentId }) {
-  return (
-    <div>
-      {isData.map((commentData) => (
-        <div key={commentData.currentUser.username}>
-          {commentData.comments.map((comment) => (
-            <div className="margin-ax" key={comment.id}>
-              <CommentComponent
-                score={comment.score}
-                username={comment.user.username}
-                createdAt={comment.createdAt}
-                userImage={comment.user.image.png}
-                content={comment.content}
-                commentId={comment.id}
-                onReply={onReply}
-                isClickedMap={isClickedMap}
-                replyingToCommentId={replyingToCommentId}
-              />
-              <div>
-                {comment.replies.length > 0 ? (
-                  <ReplyComponent />
-                ) : null}
-              </div>
-              {replyingToCommentId === comment.id && (
-                <div className="reply-input-field">
-                  <AddComment />
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      ))}
-    </div>
-  );
-}
 
-function CommentComponent({
-  score,
-  onReply,
-  content,
-  username,
-  createdAt,
-  userImage,
-  commentId,
-}) {
-  return (
-    <div className="comment">
-      <Score score={score} />
-      <div className="comment-left">
-        <UserName
-          onReply={onReply}
-          username={username}
-          createdAt={createdAt}
-          userImage={userImage}
-          commentId={commentId}
-        />{" "}
-        <p>{content}</p>
-      </div>
-    </div>
-  );
-}
 
-function Reply({
-  isData,
-  onReply,
-  isClickedMap,
-  replyingToCommentId,
-  replyText,
-  setReplyText,
-  onReplySend,
-}) {
-  return (
-    <div>
-      {isData.map((commentData) => (
-        <div key={commentData.currentUser.username}>
-          {commentData.comments.map((comment) => (
-            <div key={comment.id}>
-              {comment.replies.map((reply) => (
-                <div className="margin-ax">
-                  <ReplyComponent
-                    score={reply.score}
-                    username={reply.user.username}
-                    createdAt={reply.createdAt}
-                    userImage={reply.user.image.png}
-                    replyingTo={reply.replyingTo}
-                    content={reply.content}
-                    commentId={reply.id}
-                    onReply={onReply}
-                    isClickedMap={isClickedMap}
-                    replyingToCommentId={replyingToCommentId}
-                  />
-                  <div>
-                  </div>
-                  {replyingToCommentId === reply.id && (
-                    <div className="reply-input-field">
-                      <AddReplyComment
-                        replyingTo={reply.user.username}
-                        replyText={replyText}
-                        setReplyText={setReplyText}
-                        onReplySend={(text) => onReplySend(reply.id, text, reply.id)}
-                      />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function ReplyComponent({
-  score,
-  onReply,
-  username,
-  createdAt,
-  userImage,
-  replyingTo,
-  content,
-  commentId,
-}) {
-  return (
-    <div className="reply">
-      <Score score={score} />
-      <div className="reply-left">
-        {username !== "juliusomo" ? (
-          <UserName
-            username={username}
-            createdAt={createdAt}
-            userImage={userImage}
-            onReply={onReply}
-            commentId={commentId}
-          />
-        ) : (
-          <YouUsername
-            username={username}
-            createdAt={createdAt}
-            userImage={userImage}
-          />
-        )}
-        <h4>
-          <span>@{replyingTo}</span> {content}
-        </h4>
-      </div>
-    </div>
-  );
-}
-
-function Score({ score }) {
+export function Score({ score }) {
   return (
     <div className="score">
       <img src={plus} alt="plus" />
@@ -252,7 +102,7 @@ function Score({ score }) {
   );
 }
 
-function UserName({ username, createdAt, userImage, onReply, commentId }) {
+export function UserName({ username, createdAt, userImage, onReply, commentId }) {
   const handleReplyClick = () => {
     onReply(commentId);
   };
@@ -272,7 +122,7 @@ function UserName({ username, createdAt, userImage, onReply, commentId }) {
   );
 }
 
-function YouUsername({ username, createdAt, userImage }) {
+export function YouUsername({ username, createdAt, userImage }) {
   return (
     <div className="you-username">
       <div className="you-username-left">
@@ -295,24 +145,43 @@ function YouUsername({ username, createdAt, userImage }) {
   );
 }
 
-function AddComment() {
-  return (
-    <div className="add-comment">
-      <img src={juliusomo} alt="juliusomo" />
-      <textarea placeholder="Add a comment..." />
-      <button>Send</button>
-    </div>
-  );
-}
-
-function AddReplyComment({ replyText, setReplyText, onReplySend }) {
+export function AddComment({ replyText, setReplyText, onReplySend, commentId, onReply }) {
   function handleTextChange(e) {
     setReplyText(e.target.value);
   }
   function handleSendclick() {
     if (replyText) {
       onReplySend(replyText);
-      setReplyText('');
+      setReplyText("");
+    }
+  }
+  const handleReplyClick = () => {
+    onReply(commentId);
+  };
+
+
+
+  return (
+    <div className="add-comment">
+      <img src={juliusomo} alt="juliusomo" />
+      <textarea
+        placeholder="Add a comment..."
+        value={replyText}
+        onChange={handleTextChange}
+      />
+      <button onClick={ handleSendclick}>Send</button>
+    </div>
+  );
+}
+
+export function AddReplyComment({ replyText, setReplyText, onReplySend }) {
+  function handleTextChange(e) {
+    setReplyText(e.target.value);
+  }
+  function handleSendclick() {
+    if (replyText) {
+      onReplySend(replyText);
+      setReplyText("");
     }
   }
 
